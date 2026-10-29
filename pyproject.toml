@@ -1,0 +1,36 @@
+[project]
+name = "salb3pm"
+version = "0.1.0"
+description = "SAT and MaxSAT models for power peak minimization in SALBP"
+readme = "README.md"
+requires-python = ">=3.11,<3.13"
+dependencies = [
+    "python-sat[pblib]>=1.8.dev13",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.0",
+    "ruff>=0.6",
+]
+cp-sat = ["ortools>=9.10"]
+mip-gurobi = ["gurobipy>=11.0"]
+mip-cplex = ["cplex>=22.1", "docplex>=2.25"]
+plots = ["cnsplots"]
+
+[project.scripts]
+salb3pm = "salb3pm.cli:main"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/salb3pm"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
+[tool.ruff]
+line-length = 100
+src = ["src", "tests"]

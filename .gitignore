@@ -1,0 +1,42 @@
+# Python environments and caches
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# Editors and operating systems
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Local benchmark downloads and generated experiment artifacts
+data/benchmarks/**
+!data/benchmarks/README.md
+results/raw/**
+!results/raw/.gitkeep
+results/logs/**
+!results/logs/.gitkeep
+results/figures/**
+!results/figures/.gitkeep
+
+# Local solver configuration and credentials
+*.lic
+*.prm
+.env
+
+# LaTeX build products (keep source, bibliography, and figures)
+report/manuscript.aux
+report/manuscript.abs
+report/manuscript.bbl
+report/manuscript.blg
+report/manuscript.fdb_latexmk
+report/manuscript.fls
+report/manuscript.log
+report/manuscript.out
+report/manuscript.pdf
+report/manuscript.synctex.gz
+report/manuscript.toc
