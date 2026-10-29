@@ -29,10 +29,10 @@ Checklist theo các chặng triển khai chính. Cập nhật trạng thái khi 
 ## 4. Exact baselines và công cụ chạy
 
 - [x] Cài API/runtime cho các baseline đề bài yêu cầu: CP-SAT, CPLEX CP, CPLEX MIP và Gurobi MIP.
-- [ ] Tích hợp các baseline với instance, result schema và validator dùng chung.
+- [x] Tích hợp các baseline với instance, result schema và validator dùng chung.
 - [x] Kiểm tra cài đặt/license từng solver; nếu không chạy được, ghi `NOT_RUN` cùng lý do. Smoke solve đã thành công; Gurobi xử lý được 2.001 biến nhị phân, CPLEX MIP/CP xử lý được 1.001 biến sau khi nối Python runtime với CPLEX Studio 22.2.
-- [ ] Bổ sung CLI/runner để chạy một instance hoặc batch; lưu model, solver/version, seed, status, objective, bound/gap, runtime và log.
-- [ ] Chuẩn hóa status thành `OPTIMAL`, `FEASIBLE`, `UNSAT`, `TIMEOUT`, `ERROR`, `NOT_RUN`.
+- [x] Bổ sung CLI/runner để chạy một instance; lưu solver/version, status, objective, bound, runtime, checksum instance và log. Batch runner còn thiếu.
+- [x] Chuẩn hóa status thành `OPTIMAL`, `FEASIBLE`, `UNSAT`, `TIMEOUT`, `ERROR`, `NOT_RUN`.
 
 ## 5. Thực nghiệm và phân tích
 
@@ -63,10 +63,12 @@ Checklist theo các chặng triển khai chính. Cập nhật trạng thái khi 
 - [x] Smoke check PySAT PB + MaxSAT RC2
 - [x] Template report Elsevier CAS và script biên dịch
 - [ ] Dataset SALBP-1 theo paper và quy trình sinh power (đã tải 25 graph `.IN2`, còn parser, manifest benchmark/SALB3PM và sinh power)
-- [ ] Parser/schema và independent solution validator
+- [ ] Parser/schema và independent solution validator (đã có schema JSON và validator schedule; parser `.IN2` còn thiếu)
 - [ ] Unary và binary MaxSAT models
-- [ ] CP-SAT, CPLEX CP/MIP và Gurobi baselines
+- [ ] CP-SAT, CPLEX CP/MIP và Gurobi baselines (adapter đã triển khai; chạy đối chiếu trên fixture/benchmark còn thiếu)
 - [ ] Experiment runner, benchmark results và `cnsplots` figures
 - [ ] Hoàn thiện manuscript và kiểm tra tái lập từ clone sạch
 
 Ghi chú môi trường local: `uv sync --locked --extra dev --extra cp-sat --extra mip-cplex --extra mip-gurobi` cài API cho toàn bộ solver. Trên máy hiện tại, `docplex config --upgrade` đã nối CPLEX/CP Optimizer runtime trong `.venv` với CPLEX Optimization Studio 22.2; các solver đã giải được smoke model. README ghi lệnh setup tái lập.
+
+Ghi chú mã hiện tại: baseline adapters dùng chung formulation time-indexed và independent schedule validator; kết quả từng instance được ghi vào `results/raw/` kèm checksum đầu vào và log dưới `results/logs/`. Chưa chạy kiểm chứng tích hợp trong lượt này.

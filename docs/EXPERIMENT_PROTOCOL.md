@@ -17,3 +17,9 @@ Report both objective quality and runtime. Validate every returned schedule inde
 ## Optional solver groups
 
 Python packages installed through `uv` expose APIs; they do not guarantee all solver binaries, licenses or configurations. Record those separately. In particular, `docplex` is a modeling API and does not itself install IBM CPLEX Optimizer or CP Optimizer.
+
+## Exact baseline formulation
+
+The baseline adapters use a common sparse time-indexed formulation. A binary placement variable chooses one task, station and integer start time. The model enforces one placement per task, cycle-time capacity, station non-overlap, station order along precedence arcs, temporal precedence when connected tasks share a station, and a power-peak bound at each time unit. Task intervals use `[start, start + duration)`. Returned schedules are independently checked and their peak objective is recomputed before results are accepted.
+
+Run one baseline with `uv run salb3pm solve <instance.json> --solver <name>`. Solver names are `cp-sat`, `cplex-cp`, `cplex-mip` and `gurobi`. The runner writes a JSON record under `results/raw/` and a solver log under `results/logs/` by default. The hand-authored JSON example is a software fixture, not benchmark data or an experimental finding.

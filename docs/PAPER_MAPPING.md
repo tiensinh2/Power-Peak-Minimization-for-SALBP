@@ -12,6 +12,7 @@ An instance has tasks `i`, stations `s`, discrete time units `t`, task duration 
 | --- | --- | --- |
 | Section III-A, Fig. 3, constraints (1)–(11), pp. 365–366 | Inaugural MaxSAT model; unary threshold variables for peak | `src/salb3pm/models/maxsat_unary.py` |
 | Section III-B, Fig. 4, constraints (1′)–(11′), p. 366 | Binary representation of peak; weighted soft literals | `src/salb3pm/models/maxsat_binary.py` |
+| Related-work ILP formulation from Gianessi et al. [11], adapted in Fig. 2, p. 365 | Exact time-indexed baseline with task/station/start placement variables | `src/salb3pm/models/baseline_formulation.py`, `src/salb3pm/solvers/` |
 | Section IV-A, pp. 366–367 | Benchmark families, solver setup, 3600 second cutoff | `docs/EXPERIMENT_PROTOCOL.md` |
 
 The paper's notation and indices should be preserved in model comments/docstrings. In particular, its `B[i,t]` is a task start trigger, `A[i,t]` is task activity, `X[i,s]` is station assignment, and peak variables encode a nonnegative upper bound on time-wise power.
@@ -23,4 +24,4 @@ The paper's notation and indices should be preserved in model comments/docstring
 - The unary model uses ordered threshold literals and unit-weight soft clauses. The binary model replaces them with weighted soft literals whose weights are powers of two.
 - Verify variable indices, half-open task intervals, time-window boundaries, and the final partial binary digit carefully against the figures/equations. The paper's text extraction can flatten summation limits; consult the PDF figure for exact symbols.
 
-No model is implemented yet. This note is a design aid, not a claim of equivalence or experimental reproduction.
+The CP-SAT, CPLEX CP/MIP and Gurobi adapters use a common placement formulation for the related-work ILP baseline. The unary and binary MaxSAT models remain unimplemented. The shared baseline does not by itself reproduce the paper's MaxSAT models or its 97-instance generated benchmark.

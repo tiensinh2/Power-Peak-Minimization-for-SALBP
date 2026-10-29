@@ -2,7 +2,7 @@
 
 Dự án bài tập lớn số 2, chủ đề 9 — môn Các vấn đề hiện đại trong Khoa học máy tính, HK I 2026–2027.
 
-Mục tiêu là xây dựng và đánh giá các mô hình SAT/MaxSAT cho **Simple Assembly Line Balancing Problem with Power Peak Minimization (SALB3PM)**. Đây là bộ khung khởi đầu: encoding SALB3PM hoàn chỉnh và các baseline chưa được triển khai.
+Mục tiêu là xây dựng và đánh giá các mô hình SAT/MaxSAT cho **Simple Assembly Line Balancing Problem with Power Peak Minimization (SALB3PM)**. Project hiện có các baseline CP-SAT, CPLEX CP/MIP và Gurobi MIP cùng CLI chạy một instance; MaxSAT encoding và quy trình sinh bộ instance SALB3PM vẫn đang triển khai.
 
 Paper tham khảo chính: Z. Zheng, S. Cherif, R. S. Shibasaki, “Optimizing Power Peaks in Simple Assembly Line Balancing through Maximum Satisfiability,” ICTAI 2024, [DOI: 10.1109/ICTAI62512.2024.00060](https://doi.org/10.1109/ICTAI62512.2024.00060). Tóm tắt cách nối paper với các module dự kiến ở [docs/PAPER_MAPPING.md](docs/PAPER_MAPPING.md).
 
@@ -13,11 +13,14 @@ Yêu cầu: Git, [uv](https://docs.astral.sh/uv/getting-started/installation/) v
 ```powershell
 git clone https://github.com/tiensinh2/Power-Peak-Minimization-for-SALBP.git
 cd Power-Peak-Minimization-for-SALBP
-uv sync --locked --extra dev
+uv sync --locked --extra dev --extra cp-sat
 uv run salb3pm smoke
+uv run salb3pm solve data/instances/example-salb3pm.json --solver cp-sat
 ```
 
 `uv sync` tạo môi trường `.venv`, cài PySAT cùng thư viện PB encoding, và cài các công cụ phát triển. Không cần kích hoạt môi trường thủ công. Kết quả cuối của lệnh smoke phải là `PySAT PB encoding + MaxSAT RC2: OK`.
+
+Lệnh `solve` nhận instance JSON theo schema trong `src/salb3pm/schema.py`; kết quả JSON được lưu dưới `results/raw/` và log solver dưới `results/logs/`. Solver chọn được: `cp-sat`, `cplex-cp`, `cplex-mip`, `gurobi`.
 
 Để cài baseline cụ thể, chỉ thêm dependency tương ứng:
 
@@ -57,11 +60,12 @@ Ví dụ trên máy Windows: `uv run docplex config --upgrade "C:\Program Files\
 │   ├── logs/            # log solver
 │   └── figures/         # biểu đồ báo cáo
 ├── src/salb3pm/
-│   ├── cli.py           # entry point; currently provides setup smoke command
+│   ├── cli.py           # entry point for setup smoke and solver runs
 │   ├── smoke.py         # checks PySAT PB encoding and MaxSAT RC2
 │   ├── encodings/       # PB/CNF helpers
 │   ├── experiments/     # runner và xuất kết quả
-│   └── models/          # các mô hình SAT, MaxSAT và baseline
+│   ├── models/          # formulation baseline và các mô hình SAT/MaxSAT
+│   └── solvers/         # adapter CP-SAT, CPLEX CP/MIP, Gurobi
 ├── tests/               # kiểm tra schema, validator và encoding
 ├── CONTRIBUTING.md
 ├── IMPLEMENTATION_PLAN.md
@@ -81,7 +85,7 @@ uv run ruff check .
 
 Lệnh smoke chỉ kiểm tra cài đặt PySAT PB encoder và MaxSAT RC2, chưa giải instance SALB3PM. Cập nhật tiến độ và hướng dẫn lệnh chạy trong `IMPLEMENTATION_PLAN.md` khi thêm mô hình/CLI.
 
-Thư mục `tests/` đã được chuẩn bị nhưng bộ kiểm tra tự động sẽ được thêm cùng các module đầu tiên; hiện chưa có test suite để chạy.
+Thư mục `tests/` chưa có test suite; các solver baseline mới triển khai cần được kiểm chứng tích hợp trên fixture và benchmark.
 
 ## Hướng nghiên cứu và yêu cầu môn học
 
