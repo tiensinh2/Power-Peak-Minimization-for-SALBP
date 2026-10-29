@@ -1,0 +1,94 @@
+\documentclass[a4paper,fleqn]{cas-sc}
+
+\usepackage{graphicx}
+\usepackage{url}
+\usepackage[numbers,sort&compress]{natbib}
+
+\begin{document}
+
+\shorttitle{Power Peak Minimization in SALBP}
+\shortauthors{Team SALB3PM}
+
+\title[mode = title]{Power Peak Minimization in the Simple Assembly Line Balancing Problem: SAT and MaxSAT Models}
+
+% TODO: Replace the sample author names, emails, and affiliation with the group details.
+\author[1]{Team Member 1}
+\ead{member1@example.com}
+\author[1]{Team Member 2}
+\ead{member2@example.com}
+% Uncomment and complete this author block if the group has three members.
+% \author[1]{Team Member 3}
+% \ead{member3@example.com}
+
+\affiliation[1]{organization={Institution / Department},
+            city={City},
+            country={Country}}
+
+\begin{abstract}
+% TODO (about 150--250 words): summarize the SALB3PM problem, implemented
+% models, benchmark protocol, principal measured results, and limitations.
+This manuscript presents a study of power peak minimization in the simple assembly line balancing problem (SALB3PM). The abstract will be completed after the models and experiments have been implemented and independently validated.
+\end{abstract}
+
+\begin{keywords}
+Simple assembly line balancing \sep Power peak minimization \sep SAT \sep MaxSAT \sep Pseudo-Boolean encoding
+\end{keywords}
+
+\maketitle
+
+\section{Introduction}
+% Motivate energy-aware line balancing and state the project contributions.
+
+\section{Problem Definition}
+% Define tasks, stations, cycle time, precedence, durations, power, and objective.
+% State assumptions and the time discretization used by the implementation.
+
+\section{Related Work}
+% Discuss the assigned paper and exact approaches used as baselines.
+The primary reference for the MaxSAT formulations studied in this project is the paper by Zheng, Cherif, and Shibasaki~\citep{zheng2024powerpeaks}.
+
+\section{SAT and MaxSAT Models}
+\subsection{Task assignment and scheduling constraints}
+% Map variables and hard constraints to the paper's notation and equations.
+
+\subsection{Unary peak representation}
+% Describe the inaugural model (paper Section III-A / Figure 3).
+
+\subsection{Binary peak representation}
+% Describe the binary model (paper Section III-B / Figure 4).
+
+\subsection{Pseudo-Boolean encoding and implementation}
+% Record PySAT PBEnc choices, solver versions, and any deviations from the paper.
+
+\section{Exact Baselines}
+% Describe CP-SAT, CPLEX CP, CPLEX MIP, and Gurobi implementations actually run.
+
+\section{Experimental Setup}
+\subsection{Instances and benchmark provenance}
+\subsection{Hardware and software}
+\subsection{Protocol and metrics}
+% State limits, seeds, repeats, statuses, and validation procedure.
+
+\section{Results}
+% Insert tables and figures generated from committed/reproducible raw results.
+
+\section{Discussion and Limitations}
+% Interpret only supported observations; discuss license/system limitations.
+
+\section{Conclusion}
+% Summarize completed work and future work.
+
+\section*{CRediT authorship contribution statement}
+% TODO: Replace with each member's actual contributions.
+% Example format: Member Name: Conceptualization, Software, Writing -- original draft.
+
+\section*{Declaration of competing interest}
+The authors declare that they have no known competing financial interests or personal relationships that could have appeared to influence the work reported in this paper.
+
+\section*{Data availability}
+The source code, experiment scripts, and data supporting this study will be available at \url{<REPOSITORY_URL>}.
+
+\bibliographystyle{cas-model2-names}
+\bibliography{references}
+
+\end{document}
