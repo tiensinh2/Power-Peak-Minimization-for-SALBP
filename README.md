@@ -28,7 +28,19 @@ uv sync --locked --extra dev --extra mip-cplex
 uv sync --locked --extra dev --extra plots
 ```
 
-Các nhóm này chỉ cài API Python. Gurobi và IBM CPLEX/CP Optimizer có thể cần solver riêng, license và cấu hình môi trường. Ghi `NOT_RUN` cùng lý do nếu không thể chạy; không ghi là timeout hay UNSAT. Xem [docs/EXPERIMENT_PROTOCOL.md](docs/EXPERIMENT_PROTOCOL.md).
+Để chuẩn bị toàn bộ solver baseline cùng lúc (CP-SAT, CPLEX CP/MIP và Gurobi MIP):
+
+```powershell
+uv sync --locked --extra dev --extra cp-sat --extra mip-cplex --extra mip-gurobi
+```
+
+Các nhóm này cài API Python và runtime Community Edition khi có. Với CPLEX Studio đã cài trên máy, có thể nối runtime đầy đủ của Studio vào `.venv` bằng:
+
+```powershell
+uv run docplex config --upgrade "<đường-dẫn-đến-CPLEX_Studio>"
+```
+
+Ví dụ trên máy Windows: `uv run docplex config --upgrade "C:\Program Files\IBM\ILOG\CPLEX_Studio222"`. Môi trường local hiện tại đã giải smoke model bằng CP-SAT, Gurobi, CPLEX MIP và CPLEX CP; CPLEX MIP/CP cần bước nâng runtime trên để vượt giới hạn Community Edition. Ghi `NOT_RUN` cùng lý do nếu một solver không thể chạy; không ghi là timeout hay UNSAT. Xem [docs/EXPERIMENT_PROTOCOL.md](docs/EXPERIMENT_PROTOCOL.md).
 
 ## Cấu trúc dự án
 

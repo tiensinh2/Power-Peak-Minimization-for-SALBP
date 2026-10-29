@@ -4,7 +4,7 @@ Checklist theo các chặng triển khai chính. Cập nhật trạng thái khi 
 
 ## 1. Chuẩn bị dataset theo paper
 
-- [ ] Tải đúng bộ benchmark SALBP-1 mà paper sử dụng từ [Scholl 1993 benchmark data sets](https://assembly-line-balancing.de/salbp/benchmark-data-sets-1993/); đọc file mô tả graph và định dạng trước khi viết parser.
+- [x] Tải đúng bộ benchmark SALBP-1 mà paper sử dụng từ [Scholl 1993 benchmark data sets](https://assembly-line-balancing.de/salbp/benchmark-data-sets-1993/); đọc file mô tả graph và định dạng trước khi viết parser.
 - [ ] Dựng các instance SALB3PM theo protocol paper: giữ precedence graph và cycle time; đặt số station bằng nghiệm SALBP-1 tối ưu `m*`; sinh power task theo phân phối đều `[5, 50]`.
 - [ ] Paper báo cáo 97 instance SALB3PM. Ghi rõ phần nào tái lập được; lưu seed và quy tắc sinh power vì bộ power/seed gốc có thể không được công bố.
 - [ ] Lưu nguồn, phiên bản, checksum, quy tắc chuyển đổi và manifest instance trong [docs/DATASET.md](docs/DATASET.md). Không đưa archive benchmark vào Git nếu chưa rõ quyền phân phối.
@@ -28,8 +28,9 @@ Checklist theo các chặng triển khai chính. Cập nhật trạng thái khi 
 
 ## 4. Exact baselines và công cụ chạy
 
-- [ ] Cài các baseline đề bài yêu cầu: CP-SAT, CPLEX CP, CPLEX MIP và Gurobi MIP; dùng chung instance, result schema và validator.
-- [ ] Kiểm tra cài đặt/license từng solver; nếu không chạy được, ghi `NOT_RUN` cùng lý do.
+- [x] Cài API/runtime cho các baseline đề bài yêu cầu: CP-SAT, CPLEX CP, CPLEX MIP và Gurobi MIP.
+- [ ] Tích hợp các baseline với instance, result schema và validator dùng chung.
+- [x] Kiểm tra cài đặt/license từng solver; nếu không chạy được, ghi `NOT_RUN` cùng lý do. Smoke solve đã thành công; Gurobi xử lý được 2.001 biến nhị phân, CPLEX MIP/CP xử lý được 1.001 biến sau khi nối Python runtime với CPLEX Studio 22.2.
 - [ ] Bổ sung CLI/runner để chạy một instance hoặc batch; lưu model, solver/version, seed, status, objective, bound/gap, runtime và log.
 - [ ] Chuẩn hóa status thành `OPTIMAL`, `FEASIBLE`, `UNSAT`, `TIMEOUT`, `ERROR`, `NOT_RUN`.
 
@@ -61,9 +62,11 @@ Checklist theo các chặng triển khai chính. Cập nhật trạng thái khi 
 - [x] Starter repo, `uv` environment/lockfile và hướng dẫn clone
 - [x] Smoke check PySAT PB + MaxSAT RC2
 - [x] Template report Elsevier CAS và script biên dịch
-- [ ] Dataset SALBP-1 theo paper và quy trình sinh power
+- [ ] Dataset SALBP-1 theo paper và quy trình sinh power (đã tải 25 graph `.IN2`, còn parser, manifest benchmark/SALB3PM và sinh power)
 - [ ] Parser/schema và independent solution validator
 - [ ] Unary và binary MaxSAT models
 - [ ] CP-SAT, CPLEX CP/MIP và Gurobi baselines
 - [ ] Experiment runner, benchmark results và `cnsplots` figures
 - [ ] Hoàn thiện manuscript và kiểm tra tái lập từ clone sạch
+
+Ghi chú môi trường local: `uv sync --locked --extra dev --extra cp-sat --extra mip-cplex --extra mip-gurobi` cài API cho toàn bộ solver. Trên máy hiện tại, `docplex config --upgrade` đã nối CPLEX/CP Optimizer runtime trong `.venv` với CPLEX Optimization Studio 22.2; các solver đã giải được smoke model. README ghi lệnh setup tái lập.
