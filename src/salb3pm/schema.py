@@ -26,24 +26,40 @@ class Instance:
 
     @classmethod
     def from_dict(cls, data: dict[str, Any]) -> Instance:
-        tasks = tuple(
-            Task(
-                id=_integer(task["id"], "task id"),
-                duration=_integer(task["duration"], "task duration"),
-                power=_integer(task["power"], "task power"),
+        if "tasks" in data:
+            tasks = tuple(
+                Task(
+                    id=_integer(task["id"], "task id"),
+                    duration=_integer(task["duration"], "task duration"),
+                    power=_integer(task["power"], "task power"),
+                )
+                for task in data["tasks"]
             )
-            for task in data["tasks"]
-        )
+        else:
+            p_times = data["processing_times"]
+            p_powers = data["power_consumptions"]
+            tasks = tuple(
+                Task(
+                    id=i + 1,
+                    duration=_integer(p_times[i], "task duration"),
+                    power=_integer(p_powers[i], "task power"),
+                )
+                for i in range(len(p_times))
+            )
+
+        raw_prec = data.get("precedence", data.get("precedences", []))
         precedence = tuple(
-            tuple(_integer(task_id, "precedence task ID") for task_id in arc)
-            for arc in data.get("precedence", [])
+            tuple(_integer(task_id, "precedence task ID") for task_id in arc) for arc in raw_prec
         )
         if any(len(arc) != 2 for arc in precedence):
             raise ValueError("Each precedence arc must contain predecessor and successor IDs")
+
+        stations_val = data.get("stations", data.get("num_stations", 1))
+
         return cls(
-            id=str(data["id"]),
+            id=str(data.get("id", data.get("name", "instance"))),
             cycle_time=_integer(data["cycle_time"], "cycle_time"),
-            stations=_integer(data["stations"], "stations"),
+            stations=_integer(stations_val, "stations"),
             tasks=tasks,
             precedence=precedence,  # type: ignore[arg-type]
             dataset_version=data.get("dataset_version"),
